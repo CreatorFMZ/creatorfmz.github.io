@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creative Search</title>
+  <link rel="icon" href="https://uploads.onecompiler.io/44cgcwun6/44ckzu6hg/Fantastic-Star.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <style>
+    :root{--bg:#202124;--bg-alt:#171717;--surface:#303134;--text:#e8eaed;--text-secondary:#9aa0a6;--border:#5f6368;--accent:#8ab4f8;--logo-gradient:linear-gradient(90deg,#8ab4f8,#c58af9,#f48fb1)}
+    [data-theme="light"]{--bg:#fff;--bg-alt:#f1f3f4;--surface:#f8f9fa;--text:#202124;--text-secondary:#5f6368;--border:#dadce0;--accent:#1a73e8;--logo-gradient:linear-gradient(90deg,#4285f4,#9b72cb,#ea4335)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Roboto',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    header{padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:14px}
+    header select,header button{color:var(--text);padding:6px 10px;border-radius:4px;background:transparent;border:none;cursor:pointer;font-size:14px}
+    header button:hover,header select:hover{background:rgba(255,255,255,.08)}
+    [data-theme="light"] header button:hover,[data-theme="light"] header select:hover{background:rgba(0,0,0,.05)}
+    main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    .main-logo{margin-bottom:32px;text-align:center}
+    .main-logo img{max-width:90vw;height:auto;max-height:140px;display:block;margin:0 auto}
+    .search-container{width:min(620px,92vw);display:flex;flex-direction:column;gap:16px}
+    .engine-selector-wrapper{position:relative;width:200px}
+    .engine-selector{appearance:none;width:100%;padding:8px 36px 8px 44px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;cursor:pointer}
+    .engine-selector-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;pointer-events:none}
+    .lang-selector{padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;cursor:pointer}
+    .search-box-wrapper{position:relative;width:100%}
+    .search-box{width:100%;height:48px;padding:0 20px 0 56px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font-size:16px;outline:none;transition:all .2s}
+    .search-box:hover,.search-box:focus{box-shadow:0 1px 6px rgba(0,0,0,.15);border-color:var(--accent);background:var(--bg)}
+    .search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--text-secondary);pointer-events:none;font-size:18px;z-index:1}
+    .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+    .btn{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;padding:12px 20px;cursor:pointer;min-width:130px;transition:all .15s}
+    .btn:hover{border-color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    footer{background:var(--bg-alt);padding:16px 24px;font-size:13px;color:var(--text-secondary);border-top:1px solid var(--border);text-align:center;position:relative}
+    .footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:8px}
+    .footer-links a{color:var(--text-secondary);text-decoration:none}
+    .footer-links a:hover{text-decoration:underline}
+    .about-page{max-width:700px;margin:40px auto;padding:0 20px;line-height:1.6}
+    .about-page h1{margin-bottom:24px;text-align:center}
+    .about-page ul{margin:16px 0;padding-left:24px}
+    .about-page li{margin:12px 0}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="engine-selector-wrapper">
+    <img id="currentEngineIcon" class="engine-selector-icon" src="https://www.google.com/favicon.ico" alt="">
+    <select id="engineSelect" class="engine-selector">
+      <option value="google" data-icon="https://www.google.com/favicon.ico" selected>Google</option>
+      <option value="bing" data-icon="https://www.bing.com/favicon.ico">Bing</option>
+      <option value="duckduckgo" data-icon="https://duckduckgo.com/favicon.ico">DuckDuckGo</option>
+      <option value="brave" data-icon="https://search.brave.com/static/favicon-32x32.png">Brave</option>
+      <option value="yahoo" data-icon="https://s.yimg.com/rz/p/yahoo_favicon_32.png">Yahoo</option>
+      <option value="ecosia" data-icon="https://www.ecosia.org/static/icons/favicon.ico">Ecosia</option>
+      <option value="baidu" data-icon="https://www.baidu.com/favicon.ico">百度</option>
+      <option value="yandex" data-icon="https://yandex.com/favicon.ico">Yandex</option>
+    </select>
+  </div>
+  <div style="display:flex;gap:16px;align-items:center">
+    <select id="langSelect" class="lang-selector">
+      <option value="en" selected>English</option>
+      <option value="zh-CN">中文</option>
+    </select>
+    <button id="themeToggle">🌙</button>
+    <a href="#about" id="aboutLink">About</a>
+  </div>
+</header>
+
+<main id="mainPage">
+  <div class="main-logo">
+    <img src="https://uploads.onecompiler.io/44cgcwun6/44ckzu6hg/Creative%20Search%20LOGO.png" alt="Creative Search">
+  </div>
+  <form id="searchForm" class="search-container" method="get" target="_blank" action="https://www.google.com/search">
+    <div class="search-box-wrapper">
+      <div class="search-icon">🔍</div>
+      <input type="text" id="searchInput" class="search-box" name="q" placeholder="Search anything..." autocomplete="off" autofocus>
+    </div>
+    <div class="buttons">
+      <button class="btn" type="submit">Creative Search</button>
+      <button id="luckyBtn" class="btn" type="button">I'm Feeling Lucky</button>
+    </div>
+  </form>
+</main>
+
+<div id="aboutPage" class="about-page" style="display:none">
+  <h1>About Creative Search</h1>
+  <p>A clean, fast, privacy-respecting search portal.</p>
+  <p>Powered by：</p>
+  <ul>
+    <li>Google</li><li>Bing</li><li>DuckDuckGo</li><li>Brave Search</li>
+    <li>Yahoo</li><li>Ecosia</li><li>百度</li><li>Yandex</li>
+  </ul>
+  <p style="text-align:center;margin-top:40px">
+    Learn more at <a href="https://github.com/CreatorFMZ/Creative-Search" target="_blank">https://github.com/CreatorFMZ/Creative-Search</a><br>
+    <a href="#" id="backLink">← Back to search</a>
+  </p>
+</div>
+
+<div id="privacyPage" class="about-page" style="display:none">
+  <h1>Privacy Policy</h1>
+  <p><strong>Creative Search collects no user data.</strong></p>
+  <p>We do not store search queries, IP addresses, browser info, or any personal information. This is a pure frontend static page—all searches redirect directly to your chosen engine.</p>
+  <p>Privacy policies of the search engines you may use (click for official latest version):</p>
+  <ul>
+    <li><a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></li>
+    <li><a href="https://www.microsoft.com/privacy/privacystatement" target="_blank">Bing / Microsoft Privacy Statement</a></li>
+    <li><a href="https://duckduckgo.com/privacy" target="_blank">DuckDuckGo Privacy Policy</a></li>
+    <li><a href="https://search.brave.com/help/privacy-policy" target="_blank">Brave Search Privacy Statement</a></li>
+    <li><a href="https://guce.yahoo.com/privacy-policy" target="_blank">Yahoo Privacy Policy</a></li>
+    <li><a href="https://www.ecosia.org/privacy" target="_blank">Ecosia Privacy Policy</a></li>
+    <li><a href="https://ir.baidu.com/baidu-statement-privacy-protection" target="_blank">Baidu Privacy Protection Statement</a></li>
+    <li><a href="https://yandex.com/legal/confidential/" target="_blank">Yandex Privacy Policy</a></li>
+    <li><a href="https://onecompiler.com/privacy-policy" target="_blank">OneCompiler.com Privacy Policy</a></li>
+  </ul>
+  <p style="text-align:center;margin-top:40px"><a href="#" id="backFromPrivacy">← Back to search</a></p>
+</div>
+
+<div id="termsPage" class="about-page" style="display:none">
+  <h1>Terms of Service</h1>
+  <p>Creative Search itself has no separate terms of service, as it is only a frontend redirect portal that collects, processes, or stores no user data.</p>
+  <p>Terms of service for the search engines and related tools you actually use:</p>
+  <ul>
+    <li><a href="https://policies.google.com/terms" target="_blank">Google Terms of Service</a></li>
+    <li><a href="https://www.microsoft.com/servicesagreement" target="_blank">Microsoft Services Agreement (applies to Bing)</a></li>
+    <li><a href="https://duckduckgo.com/terms" target="_blank">DuckDuckGo Terms</a></li>
+    <li><a href="https://search.brave.com/help/terms-of-use" target="_blank">Brave Search Terms of Use</a></li>
+    <li><a href="https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html" target="_blank">Yahoo Terms of Service</a></li>
+    <li><a href="https://www.ecosia.org/terms" target="_blank">Ecosia Terms</a></li>
+    <li><a href="https://www.baidu.com/duty/" target="_blank">Baidu User Agreement</a></li>
+    <li><a href="https://yandex.com/legal/termsofservice/" target="_blank">Yandex Terms of Service</a></li>
+    <li><a href="https://onecompiler.com/terms-and-conditions" target="_blank">OneCompiler.com Terms and Conditions</a></li>
+  </ul>
+  <p style="text-align:center;margin-top:40px"><a href="#" id="backFromTerms">← Back to search</a></p>
+</div>
+
+<footer>
+  <div>Creative Search © Fantastic Star 2026</div>
+  <div class="footer-links">
+    <a href="#privacy" id="footerPrivacy">Privacy</a>
+    <a href="#terms" id="footerTerms">Terms</a>
+    <a href="#about" id="footerAbout">About</a>
+  </div>
+</footer>
+
+<script>
+// 元素引用
+const form = document.getElementById("searchForm"),
+      engineSelect = document.getElementById("engineSelect"),
+      currentIcon = document.getElementById("currentEngineIcon"),
+      input = document.getElementById("searchInput"),
+      langSelect = document.getElementById("langSelect"),
+      mainPage = document.getElementById("mainPage"),
+      aboutPage = document.getElementById("aboutPage"),
+      submitBtn = document.querySelector(".buttons .btn[type=submit]"),
+      luckyBtn = document.getElementById("luckyBtn");
+
+// 搜索引擎配置
+const engines = {
+  google:    {url:"https://www.google.com/search",     param:"q"},
+  bing:      {url:"https://www.bing.com/search",       param:"q"},
+  duckduckgo:{url:"https://duckduckgo.com/",           param:"q"},
+  brave:     {url:"https://search.brave.com/search",   param:"q"},
+  yahoo:     {url:"https://search.yahoo.com/search",   param:"p"},
+  ecosia:    {url:"https://www.ecosia.org/search",     param:"q"},
+  baidu:     {url:"https://www.baidu.com/s",           param:"wd"},
+  yandex:    {url:"https://yandex.com/search/",        param:"text"}
+};
+
+// 多语言文本（只保留 en 和 zh-CN）
+const i18n = {
+  "en": {
+    title:"Creative Search",
+    placeholder:"Search anything...",
+    searchButton:"Creative Search",
+    luckyButton:"I'm Feeling Lucky",
+    aboutTitle:"About Creative Search",
+    aboutDesc:"A clean, fast, privacy-respecting search portal.",
+    aboutPowered:"Powered by:",
+    aboutMore:"Learn more at",
+    githubLinkText:"https://github.com/CreatorFMZ/Creative-Search",
+    backLink:"← Back to search",
+    privacyTitle:"Privacy Policy",
+    privacyIntro:"Creative Search collects no user data.",
+    privacyDesc:"We do not store search queries, IP addresses, browser info, or any personal information. This is a pure frontend static page—all searches redirect directly to your chosen engine.",
+    privacyEngines:"Privacy policies of the search engines you may use (click for official latest version):",
+    termsTitle:"Terms of Service",
+    termsIntro:"Creative Search itself has no separate terms of service, as it is only a frontend redirect portal that collects, processes, or stores no user data.",
+    termsEngines:"Terms of service for the search engines and related tools you actually use:"
+  },
+  "zh-CN": {
+    title:"Creative Search",
+    placeholder:"探索任何内容...",
+    searchButton:"Creative 搜索",
+    luckyButton:"手气不错",
+    aboutTitle:"关于 Creative Search",
+    aboutDesc:"一个简洁、快速、尊重隐私的搜索入口。",
+    aboutPowered:"Powered by：",
+    aboutMore:"了解更多请转到",
+    githubLinkText:"https://github.com/CreatorFMZ/Creative-Search",
+    backLink:"← 返回搜索页",
+    privacyTitle:"隐私政策",
+    privacyIntro:"Creative Search 不收集任何用户数据。",
+    privacyDesc:"我们不存储搜索记录、IP 地址、浏览器信息或其他任何个人信息。这是一个纯前端静态页面，所有搜索请求直接跳转到您选择的搜索引擎。",
+    privacyEngines:"您实际使用的搜索引擎的隐私政策如下（点击查看官方最新版本）：",
+    termsTitle:"服务条款",
+    termsIntro:"Creative Search 本身不提供独立的服务条款，因为它仅作为一个纯前端跳转入口，不收集、不处理、不存储任何用户数据。",
+    termsEngines:"您实际使用的搜索引擎及相关工具的服务条款如下："
+  }
+};
+
+function updateEngine() {
+  const e = engineSelect.value;
+  form.action = engines[e].url;
+  input.name = engines[e].param;
+  currentIcon.src = engineSelect.options[engineSelect.selectedIndex].dataset.icon || "https://www.google.com/favicon.ico";
+}
+
+function updateLanguage() {
+  const lang = langSelect.value;
+  document.documentElement.lang = lang;
+}
+
+function updateAllTexts() {
+  const lang = langSelect.value;
+  const t = i18n[lang] || i18n["en"];
+
+  document.title = t.title;
+  input.placeholder = t.placeholder;
+  submitBtn.textContent = t.searchButton;
+  luckyBtn.textContent = t.luckyButton;
+
+  const aboutH1 = aboutPage.querySelector("h1");
+  if (aboutH1) aboutH1.textContent = t.aboutTitle;
+
+  const aboutPs = aboutPage.querySelectorAll("p");
+  if (aboutPs[0]) aboutPs[0].textContent = t.aboutDesc;
+  if (aboutPs[1]) aboutPs[1].textContent = t.aboutPowered;
+
+  const aboutMore = aboutPage.querySelector('p[style*="text-align:center"]');
+  if (aboutMore) {
+    aboutMore.innerHTML = `${t.aboutMore} <a href="https://github.com/CreatorFMZ/Creative-Search" target="_blank">${t.githubLinkText}</a><br><a href="#" id="backLink">${t.backLink}</a>`;
+  }
+
+  const privacyH1 = document.querySelector("#privacyPage h1");
+  if (privacyH1) privacyH1.textContent = t.privacyTitle;
+
+  const privacyStrong = document.querySelector("#privacyPage strong");
+  if (privacyStrong) privacyStrong.textContent = t.privacyIntro;
+
+  const privacyPs = document.querySelectorAll("#privacyPage p:not([style])");
+  if (privacyPs[1]) privacyPs[1].textContent = t.privacyDesc;
+  if (privacyPs[2]) privacyPs[2].textContent = t.privacyEngines;
+
+  const termsH1 = document.querySelector("#termsPage h1");
+  if (termsH1) termsH1.textContent = t.termsTitle;
+
+  const termsPs = document.querySelectorAll("#termsPage p:not([style])");
+  if (termsPs[0]) termsPs[0].textContent = t.termsIntro;
+  if (termsPs[1]) termsPs[1].textContent = t.termsEngines;
+}
+
+function showMainPage() {
+  mainPage.style.display = "flex";
+  aboutPage.style.display = "none";
+  document.getElementById("privacyPage").style.display = "none";
+  document.getElementById("termsPage").style.display = "none";
+}
+
+// 事件绑定
+engineSelect.addEventListener("change", () => {
+  updateEngine();
+  localStorage.setItem("engine", engineSelect.value);
+});
+
+langSelect.addEventListener("change", () => {
+  localStorage.setItem("lang", langSelect.value);
+  updateLanguage();
+  updateAllTexts();
+});
+
+document.getElementById("themeToggle").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  document.getElementById("themeToggle").textContent = next === "light" ? "🌙" : "☀️";
+});
+
+document.querySelectorAll("#aboutLink, #footerAbout").forEach(l => 
+  l.addEventListener("click", e => {
+    e.preventDefault();
+    mainPage.style.display = "none";
+    aboutPage.style.display = "block";
+    document.getElementById("privacyPage").style.display = "none";
+    document.getElementById("termsPage").style.display = "none";
+  })
+);
+
+document.querySelector("#footerPrivacy").addEventListener("click", e => {
+  e.preventDefault();
+  mainPage.style.display = "none";
+  aboutPage.style.display = "none";
+  document.getElementById("privacyPage").style.display = "block";
+  document.getElementById("termsPage").style.display = "none";
+});
+
+document.querySelector("#footerTerms").addEventListener("click", e => {
+  e.preventDefault();
+  mainPage.style.display = "none";
+  aboutPage.style.display = "none";
+  document.getElementById("privacyPage").style.display = "none";
+  document.getElementById("termsPage").style.display = "block";
+});
+
+document.querySelectorAll("#backLink, #backFromPrivacy, #backFromTerms").forEach(el => 
+  el?.addEventListener("click", e => {
+    e.preventDefault();
+    showMainPage();
+  })
+);
+
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    form.submit();
+  }
+});
+
+luckyBtn.addEventListener("click", () => {
+  const destinations = ["https://duckgame.oneapp.dev/", "https://deeplost.oneapp.dev/"];
+  window.open(destinations[Math.floor(Math.random() * destinations.length)], "_blank");
+});
+
+// 初始化
+window.addEventListener("load", () => {
+  const savedEngine = localStorage.getItem("engine");
+  const savedLang   = localStorage.getItem("lang");
+  const savedTheme  = localStorage.getItem("theme");
+
+  if (savedEngine) engineSelect.value = savedEngine;
+  if (savedLang)   langSelect.value   = savedLang;
+
+  let theme = savedTheme;
+  if (!theme) {
+    theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+  document.documentElement.setAttribute("data-theme", theme);
+  document.getElementById("themeToggle").textContent = theme === "light" ? "🌙" : "☀️";
+
+  updateEngine();
+  updateLanguage();
+  updateAllTexts();
+});
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"e3c1c9af36de41759418005494a48906","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

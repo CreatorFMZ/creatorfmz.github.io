@@ -166,7 +166,7 @@ const engines = {
   yandex:    {url:"https://yandex.com/search/",        param:"text"}
 };
 
-// 多语言文本（只保留 en 和 zh-CN）
+// 多语言文本
 const i18n = {
   "en": {
     title:"Creative Search",
@@ -257,6 +257,8 @@ function updateAllTexts() {
   const termsPs = document.querySelectorAll("#termsPage p:not([style])");
   if (termsPs[0]) termsPs[0].textContent = t.termsIntro;
   if (termsPs[1]) termsPs[1].textContent = t.termsEngines;
+
+  bindBackLinks();
 }
 
 function showMainPage() {
@@ -312,12 +314,16 @@ document.querySelector("#footerTerms").addEventListener("click", e => {
   document.getElementById("termsPage").style.display = "block";
 });
 
-document.querySelectorAll("#backLink, #backFromPrivacy, #backFromTerms").forEach(el => 
-  el?.addEventListener("click", e => {
-    e.preventDefault();
-    showMainPage();
-  })
-);
+function bindBackLinks() {
+  document.querySelectorAll("#backLink, #backFromPrivacy, #backFromTerms").forEach(el => 
+    el?.addEventListener("click", e => {
+      e.preventDefault();
+      showMainPage();
+    })
+  );
+}
+
+bindBackLinks();
 
 input.addEventListener("keydown", e => {
   if (e.key === "Enter") {
@@ -352,6 +358,7 @@ window.addEventListener("load", () => {
   updateAllTexts();
 });
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"e3c1c9af36de41759418005494a48906","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"e3c1c9af36de41759418005494a48906","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
